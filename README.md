@@ -70,7 +70,7 @@ docker-compose down
 
 ### /feed
 
-Метод: `POST`
+Метод: `GET`
 
 Параметры:
 - `string access_token` - токен доступа, полученный в /authorize
