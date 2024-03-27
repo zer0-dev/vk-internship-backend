@@ -14,7 +14,7 @@ class Database{
 
     public function addUser(User $user): mixed{
         $email = $user->getEmail();
-        $password = $user->getPassword()->getPassword();
+        $password = password_hash($user->getPassword()->getPassword(), PASSWORD_BCRYPT);
 
         $prep = $this->db->prepare("SELECT count(*) as c FROM users WHERE email = ?");
         $prep->bind_param('s', $email);
@@ -37,15 +37,19 @@ class Database{
     }
 
     public function getUserByEmail(string $email, string $password): mixed{
-        $prep = $this->db->prepare("SELECT id FROM users WHERE email = ? AND password = ?");
-        $prep->bind_param('ss', $email, $password);
+        $prep = $this->db->prepare("SELECT id,password FROM users WHERE email = ?");
+        $prep->bind_param('s', $email);
         $prep->execute();
 		$res = $prep->get_result();
         if($res->num_rows > 0){
             $u = $res->fetch_assoc();
-            return ['user_id' => $u['id']];
+            if(password_verify($password, $u['password'])){
+                return ['user_id' => $u['id']];
+            } else {
+                return new Error(2, "Incorrect password");
+            }
         } else{
-            return new Error(2, "Incorrect e-mail or password");
+            return new Error(2, "Incorrect e-mail");
         }
     }
 

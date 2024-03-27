@@ -1,6 +1,6 @@
 # VK internship task
 
-Упрощённый сервис с регистрацией и авторизацией
+Упрощённый сервис с регистрацией и авторизацией с дополнительным функционалом хэширования паролей и временем действия у токенов
 
 ## Установка и запуск
 
@@ -8,7 +8,7 @@
 
 1. Скопировать репозиторий:
 ```bash
-git clone https://github.com/zer0-dev/vk-internship-backend.git
+git clone -b additional https://github.com/zer0-dev/vk-internship-backend.git
 ```
 
 2. В директории проекта запустить приложение:
@@ -22,7 +22,6 @@ docker-compose exec -w /var/www/task php composer install
 ```
 
 Приложение будет доступно по адресу http://localhost
-
 Дефолтный порт 80 можно изменить в `docker-compose.yml`.
 
 Остановить приложение:

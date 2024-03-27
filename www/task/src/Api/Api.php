@@ -38,6 +38,7 @@ class Api{
                 $password = $data['password'];
                 $userRes = Api::$db->getUserByEmail($email, $password);
                 if(gettype($userRes) == "array"){
+                    $userRes['expires'] = strtotime("now")+1800;
                     $jwt = new JWT($userRes);
                     return ['access_token' => $jwt->encode()];
                 } else {
@@ -50,8 +51,9 @@ class Api{
                 }
                 $jwt = JWT::decode($data['access_token']);
                 if($jwt){
-                    $userRes = Api::$db->getUserById($jwt->getPayload()['user_id']);
-                    if(gettype($userRes) == "object"){
+                    $payload = $jwt->getPayload();
+                    $userRes = Api::$db->getUserById($payload['user_id']);
+                    if(gettype($userRes) == "object" || strtotime("now") > $payload['expires']){
                         header("HTTP/1.1 401 Unauthorized");
                     }
                 } else{
