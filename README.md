@@ -22,6 +22,7 @@ docker-compose exec -w /var/www/task php composer install
 ```
 
 Приложение будет доступно по адресу http://localhost
+
 Дефолтный порт 80 можно изменить в `docker-compose.yml`.
 
 Остановить приложение:
