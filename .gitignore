@@ -1,0 +1,4 @@
+logs/
+mysql/
+www/task/vendor/
+www/.composer/
